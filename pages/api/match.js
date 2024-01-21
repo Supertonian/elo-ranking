@@ -7,7 +7,13 @@ export default async function handler(req, res) {
     const { playerAId, playerBId, scoreA, scoreB } = body;
     const client = await connectToMongoDB();
 
-    await insertMatch(client, playerAId, playerBId, scoreA, scoreB);
+    await insertMatch(
+      client,
+      playerAId,
+      playerBId,
+      Number(scoreA),
+      Number(scoreB)
+    );
     res.status(200).json([]);
   } else if (req.method === "GET") {
     const client = await connectToMongoDB();
