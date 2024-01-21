@@ -8,6 +8,7 @@ import {
   InputLabel,
   FormControl,
   Grid,
+  CircularProgress,
 } from "@mui/material";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
     scoreB: 0,
   });
   const [matches, setMatches] = useState([]);
+  const [isAddingMatch, setIsAddingMatch] = useState(false);
 
   useEffect(() => {
     fetch("/api/player")
@@ -33,7 +35,6 @@ export default function Home() {
     fetch("/api/match")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setMatches(data);
       });
   }, []);
@@ -48,7 +49,6 @@ export default function Home() {
     fetch("/api/match")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setMatches(data);
       });
   }
@@ -80,6 +80,35 @@ export default function Home() {
   }
 
   function handleInsertMatch() {
+    if (!match.playerAId || !match.playerBId) {
+      alert("Please select both players");
+      return;
+    }
+    // Prevent players from playing against themselves
+    if (match.playerAId === match.playerBId) {
+      alert("Please select different players");
+      return;
+    }
+    // Prevent equal points
+    if (match.scoreA === match.scoreB) {
+      alert("Please enter different scores");
+      return;
+    }
+    // At least one player must have 11 points
+    if (match.scoreA < 11 && match.scoreB < 11) {
+      alert("At least one player must have 11 points");
+      return;
+    }
+    // If points are above 10, the difference must be 2
+    if (
+      (match.scoreA > 10 || match.scoreB > 10) &&
+      Math.abs(match.scoreA - match.scoreB) !== 2
+    ) {
+      alert("The difference between the scores must be 2");
+      return;
+    }
+
+    setIsAddingMatch(true);
     fetch("/api/match", {
       method: "POST",
       headers: {
@@ -97,7 +126,10 @@ export default function Home() {
         });
         refresh();
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => console.error("Error:", error))
+      .finally(() => {
+        setIsAddingMatch(false);
+      });
   }
 
   return (
@@ -227,8 +259,10 @@ export default function Home() {
                 color="primary"
                 onClick={handleInsertMatch}
                 fullWidth
+                disabled={isAddingMatch} // Disable the button when loading
               >
-                Add Match
+                {isAddingMatch ? <CircularProgress size={24} /> : "Add Match"}{" "}
+                {/* Show loading indicator when adding match */}
               </Button>
             </Grid>
           </Grid>
@@ -262,7 +296,9 @@ export default function Home() {
               <div key={match._id}>
                 <p>
                   {playerAName} ({match.scoreA}) vs ({match.scoreB}){" "}
-                  {playerBName}
+                  {playerBName} -{" "}
+                  {new Date(match.timestamp).toLocaleDateString()}{" "}
+                  {new Date(match.timestamp).toLocaleTimeString()}
                 </p>
               </div>
             );
