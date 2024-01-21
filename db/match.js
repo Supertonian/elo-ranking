@@ -38,12 +38,12 @@ export async function insertMatch(client, playerA, playerB, scoreA, scoreB) {
     const newRatingA =
       playerAData.rating +
       32 * ((scoreA > scoreB ? 1 : 0) - expectedScoreA) +
-      0;
+      (scoreA > scoreB ? scoreA - scoreB : 0);
 
     const newRatingB =
       playerBData.rating +
       32 * ((scoreB > scoreA ? 1 : 0) - expectedScoreB) +
-      0;
+      (scoreB > scoreA ? scoreB - scoreA : 0);
 
     // update playerA's rating
     await client
