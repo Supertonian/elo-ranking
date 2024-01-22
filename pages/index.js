@@ -101,7 +101,8 @@ export default function Home() {
     }
     // If points are above 10, the difference must be 2
     if (
-      (match.scoreA > 10 || match.scoreB > 10) &&
+      match.scoreA >= 10 &&
+      match.scoreB >= 10 &&
       Math.abs(match.scoreA - match.scoreB) !== 2
     ) {
       alert("The difference between the scores must be 2");
