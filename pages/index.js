@@ -140,7 +140,7 @@ export default function Home() {
       </Head>
 
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={2}>
+        <Grid item xs={12} md={2}>
           <h1>Ranking</h1>
           {/* List of players */}
           {players?.map((player) => (
@@ -152,7 +152,7 @@ export default function Home() {
             </div>
           ))}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={6}>
               {/* MUI TextField for the player's name */}
@@ -189,7 +189,7 @@ export default function Home() {
 
           {/* Match insertion form */}
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={6} sm={3}>
               <FormControl fullWidth margin="normal">
                 <InputLabel id="playerA-label">Select Player A</InputLabel>
                 <Select
@@ -208,7 +208,7 @@ export default function Home() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={6} sm={2}>
+            <Grid item xs={6} md={2}>
               <TextField
                 type="number"
                 name="scoreA"
@@ -221,7 +221,7 @@ export default function Home() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={6} md={3}>
               <FormControl fullWidth margin="normal">
                 <InputLabel id="playerB-label">Select Player B</InputLabel>
                 <Select
@@ -240,7 +240,7 @@ export default function Home() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={6} sm={2}>
+            <Grid item xs={6} md={2}>
               <TextField
                 type="number"
                 name="scoreB"
