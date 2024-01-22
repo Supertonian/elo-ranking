@@ -306,6 +306,8 @@ export default function Home() {
           })}
         </Grid>
       </Grid>
+
+      <a href="/api/auth/login">Test Login</a>
     </div>
   );
 }
