@@ -5,6 +5,7 @@ export async function getPlayers(client) {
       .db("tabletennis")
       .collection("player")
       .find({})
+      .sort({ rating: -1 })
       .toArray(); // Retrieves all players as an array
     return players;
   } catch (error) {
